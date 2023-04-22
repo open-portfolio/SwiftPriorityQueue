@@ -228,46 +228,72 @@ class SwiftPriorityQueueTests: XCTestCase {
     func testPushWithLimitAscending() {
         var pq: PriorityQueue<Int> = PriorityQueue<Int>(ascending: false)
         let maxCount = 4
+//        XCTAssertNil(pq.push(4, maxCount: maxCount))
+//        XCTAssert(Set([4]) == Set(pq))
+//        XCTAssertNil(pq.push(5, maxCount: maxCount))
+//        XCTAssert(Set([4, 5]) == Set(pq))
+//        XCTAssertNil(pq.push(0, maxCount: maxCount))
+//        XCTAssert(Set([0, 4, 5]) == Set(pq))
+//        XCTAssertNil(pq.push(3, maxCount: maxCount))
+//        XCTAssert(Set([0, 3, 4, 5]) == Set(pq))
+//        XCTAssertEqual(pq.push(6, maxCount: maxCount), 6) // check first real discard
+//        XCTAssert(Set([0, 3, 4, 5]) == Set(pq))
+//        XCTAssertEqual(5, pq.push(1, maxCount: maxCount)) // check second discard
+//        print(pq)
+//        XCTAssert(Set([0, 1, 3, 4]) == Set(pq))
         XCTAssertNil(pq.push(4, maxCount: maxCount))
-        XCTAssert(Set([4]) == Set(pq))
+        XCTAssertEqual([4], pq.reversed())
         XCTAssertNil(pq.push(5, maxCount: maxCount))
-        XCTAssert(Set([4, 5]) == Set(pq))
+        XCTAssertEqual([4, 5], pq.reversed())
         XCTAssertNil(pq.push(0, maxCount: maxCount))
-        XCTAssert(Set([0, 4, 5]) == Set(pq))
+        XCTAssertEqual([0, 4, 5], pq.reversed())
         XCTAssertNil(pq.push(3, maxCount: maxCount))
-        XCTAssert(Set([0, 3, 4, 5]) == Set(pq))
-        XCTAssertEqual(pq.push(6, maxCount: maxCount), 6) // check first real discard
-        XCTAssert(Set([0, 3, 4, 5]) == Set(pq))
-        XCTAssertEqual(5, pq.push(1, maxCount: maxCount)) // check second discard
-        print(pq)
-        XCTAssert(Set([0, 1, 3, 4]) == Set(pq))
+        XCTAssertEqual([0, 3, 4, 5], pq.reversed())
+        XCTAssertNil(pq.push(6, maxCount: maxCount))
+        XCTAssertEqual([0, 3, 4, 5], pq.reversed())
+        XCTAssertEqual(5, pq.push(1, maxCount: maxCount))
+        XCTAssertEqual([0, 1, 3, 4], pq.reversed())
     }
     
     func testPushWithLimitDescending() {
         var pq: PriorityQueue<Int> = PriorityQueue<Int>(ascending: true)
         let maxCount = 4
 
+//        XCTAssertNil(pq.push(4, maxCount: maxCount))
+//        XCTAssert(Set([4]) == Set(pq))
+//
+//        XCTAssertNil(pq.push(5, maxCount: maxCount))
+//        XCTAssert(Set([4, 5]) == Set(pq))
+//
+//        XCTAssertNil(pq.push(2, maxCount: maxCount))
+//        XCTAssert(Set([2, 4, 5]) == Set(pq))
+//
+//        XCTAssertNil(pq.push(3, maxCount: maxCount))
+//        XCTAssert(Set([2, 3, 4, 5]) == Set(pq))
+//
+//        XCTAssertEqual(1, pq.push(1, maxCount: maxCount))
+//        XCTAssert(Set([2, 3, 4, 5]) == Set(pq))
+//
+//        XCTAssertEqual(2, pq.push(6, maxCount: maxCount))
+//        XCTAssert(Set([3, 4, 5, 6]) == Set(pq))
+//
+//        XCTAssertEqual(3, pq.push(6, maxCount: maxCount))
+//        XCTAssert(Set([4, 5, 6, 6]) == Set(pq))
+
         XCTAssertNil(pq.push(4, maxCount: maxCount))
-        XCTAssert(Set([4]) == Set(pq))
-
+        XCTAssertEqual([4], pq.reversed())
         XCTAssertNil(pq.push(5, maxCount: maxCount))
-        XCTAssert(Set([4, 5]) == Set(pq))
-
+        XCTAssertEqual([5, 4], pq.reversed())
         XCTAssertNil(pq.push(2, maxCount: maxCount))
-        XCTAssert(Set([2, 4, 5]) == Set(pq))
-
+        XCTAssertEqual([5, 4, 2], pq.reversed())
         XCTAssertNil(pq.push(3, maxCount: maxCount))
-        XCTAssert(Set([2, 3, 4, 5]) == Set(pq))
-
-        XCTAssertEqual(1, pq.push(1, maxCount: maxCount))
-        XCTAssert(Set([2, 3, 4, 5]) == Set(pq))
-
+        XCTAssertEqual([5, 4, 3, 2], pq.reversed())
+        XCTAssertNil(pq.push(1, maxCount: maxCount))
+        XCTAssertEqual([5, 4, 3, 2], pq.reversed())
         XCTAssertEqual(2, pq.push(6, maxCount: maxCount))
-        XCTAssert(Set([3, 4, 5, 6]) == Set(pq))
-
+        XCTAssertEqual([6, 5, 4, 3], pq.reversed())
         XCTAssertEqual(3, pq.push(6, maxCount: maxCount))
-        XCTAssert(Set([4, 5, 6, 6]) == Set(pq))
-
+        XCTAssertEqual([6, 6, 5, 4], pq.reversed())
     }
     
     static var allTests = [

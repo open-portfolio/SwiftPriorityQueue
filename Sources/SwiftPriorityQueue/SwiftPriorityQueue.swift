@@ -32,7 +32,7 @@
 public struct PriorityQueue<T: Comparable> {
     
     fileprivate(set) var heap = [T]()
-    private let ordered: (T, T) -> Bool
+    private var ordered: (T, T) -> Bool
     
     /// Creates a new PriorityQueue using either the `>` operator or `<` operator to determine order.
     /// The default order is descending if `ascending` is not specified.
@@ -83,20 +83,30 @@ public struct PriorityQueue<T: Comparable> {
     /// - parameter element: The element to be inserted into the Priority Queue.
     /// - parameter maxCount: The Priority Queue will not grow further if its count >= maxCount.
     /// - returns: the discarded lowest priority element, or `nil` if count < maxCount
+//    public mutating func push(_ element: T, maxCount: Int) -> T? {
+//        precondition(maxCount > 0)
+//        if count < maxCount {
+//            push(element)
+//        } else { // heap.count >= maxCount
+//            // find the min priority element (ironically using max here)
+//            if let discard = heap.max(by: ordered) {
+//                if ordered(discard, element) { return element }
+//                push(element)
+//                remove(discard)
+//                return discard
+//            }
+//        }
+//        return nil
+//    }
     public mutating func push(_ element: T, maxCount: Int) -> T? {
         precondition(maxCount > 0)
-        if count < maxCount {
-            push(element)
-        } else { // heap.count >= maxCount
-            // find the min priority element (ironically using max here)
-            if let discard = heap.max(by: ordered) {
-                if ordered(discard, element) { return element }
-                push(element)
-                remove(discard)
-                return discard
-            }
+        var discard: T?
+        if heap.count >= maxCount {
+            if let peeked = peek(), !ordered(element, peeked) { return nil }
+            discard = pop()
         }
-        return nil
+        push(element)
+        return discard
     }
 
     /// Remove and return the element with the highest priority (or lowest if ascending). O(lg n)
@@ -149,6 +159,12 @@ public struct PriorityQueue<T: Comparable> {
         return heap.first
     }
     
+    /// Eliminate all of the elements from the Priority Queue, optionally replacing the order.
+    public mutating func clear(newOrder: ((T, T) -> Bool)? = nil) {
+        if let _newOrder = newOrder { self.ordered = _newOrder }
+        heap.removeAll(keepingCapacity: false)
+    }
+ 
     /// Eliminate all of the elements from the Priority Queue, optionally replacing the order.
     public mutating func clear() {
         heap.removeAll(keepingCapacity: false)
